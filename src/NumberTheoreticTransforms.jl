@@ -1,5 +1,5 @@
 module NumberTheoreticTransforms
 
-greet() = print("Hello World!")
+include("ntt.jl")
 
 end # module
