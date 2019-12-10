@@ -1,7 +1,7 @@
 
 export ntt, intt
 
-function ntt(g::Integer, q::Integer, x::Array{T,1}) where {T <: Integer}
+function ntt(g::T, q::T, x::Array{T,1}) where {T <: Integer}
     N = length(x)
     @assert mod(q - 1, N) == 0 
     @assert powermod(g, N, q) == 1
@@ -12,7 +12,7 @@ function ntt(g::Integer, q::Integer, x::Array{T,1}) where {T <: Integer}
     return mod.(t * x, q)
 end
 
-function intt(g::Integer, q::Integer, y::Array{T,1}) where {T <: Integer}
+function intt(g::T, q::T, y::Array{T,1}) where {T <: Integer}
     N = length(y)
     @assert mod(q - 1, N) == 0
     @assert powermod(g, N, q) == 1
@@ -23,4 +23,12 @@ function intt(g::Integer, q::Integer, y::Array{T,1}) where {T <: Integer}
     inv_N = invmod(N, q)
     t = [powermod(inv_g, l * k, q) for  k in 0:N - 1, l in 0:N - 1]
     return mod.(inv_N * t * y, q)
+end
+
+function ntt(g::T, q::T, x::Array{T,N}) where {T <: Integer, N}
+    return reshape(ntt(g, q, reshape(x, length(x))), size(x))
+end
+
+function intt(g::T, q::T, y::Array{T,N}) where {T <: Integer, N}
+    return reshape(intt(g, q, reshape(y, length(y))), size(y))
 end
