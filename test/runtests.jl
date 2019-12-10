@@ -12,6 +12,24 @@ using Test, NumberTheoreticTransforms
     @test intt(g, q, ntt(g, q, x)) == x
 end
 
+@testset "Convolution with NTT" begin
+    using DSP
+
+    g = 2
+    q = 257
+    # padding inputs with zeros to get non circular convolution
+    x = [1:8; zeros(Int64, 8);]
+    h = [1:8; zeros(Int64, 8);]
+
+    X = ntt(g, q, x)
+    H = ntt(g, q, h)
+    Y = X .* H
+
+    y = intt(g, q, Y)
+    
+    @test y[1:15] == conv(1:8, 1:8)
+end
+
 @testset "Number Theoretic Transform 2D" begin
     g = 2
     q = 257
