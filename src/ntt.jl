@@ -1,3 +1,19 @@
+### ntt.jl
+#
+# Copyright (C) 2019 Jakub Wronowski.
+#
+# Maintainer: Jakub Wronowski <jakubwro@users.noreply.github.com>
+# Keywords: number theoretic transform
+#
+# This file is a part of NumberTheoreticTransforms.jl.
+#
+# License is MIT.
+#
+### Commentary:
+#
+# This file contains implementation of general Number Theoretic Transform.
+#
+### Code:
 
 export ntt, intt
 
@@ -42,7 +58,7 @@ end
 # it can be done calling N-1 dimensional transform in a loop
 function ntt(g::T, q::T, x::Array{T,2}) where {T <: Integer}
     N, M = size(x)
-    @assert N == M
+    @assert N == M #TODO: make it worl for N != M (need different g for each dim)
     y = zeros(T, size(x))
 
     for n in 1:N
