@@ -1,6 +1,6 @@
 using Test, NumberTheoreticTransforms
 
-@testset "Number Theoretic Transform" begin
+@testset "1D Number Theoretic Transform" begin
     g = 2
     q = 31
     x = [1:5;]
@@ -12,7 +12,7 @@ using Test, NumberTheoreticTransforms
     @test intt(g, q, ntt(g, q, x)) == x
 end
 
-@testset "Convolution with NTT" begin
+@testset "1D convolution with NTT" begin
     using DSP
 
     g = 2
@@ -30,20 +30,20 @@ end
     @test y[1:15] == conv(1:8, 1:8)
 end
 
-@testset "Number Theoretic Transform 2D" begin
-    g = 2
+@testset "2D Number Theoretic Transform" begin
+    g = 16
     q = 257
     x = reshape([1:16;] , (4,4))
     y = ntt(g, q, x)
     @test intt(g, q, y) == x
 
-    g = 3
+    g = 4
     q = 17
     x = reshape([1:16;] , (4,4))
     y = ntt(g, q, x)
     @test intt(g, q, y) == x
 
-    g = 5
+    g = 7
     q = 19
     x = reshape([1:9;] , (3,3))
     y = ntt(g, q, x)
