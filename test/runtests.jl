@@ -1,3 +1,3 @@
 using Test, NumberTheoreticTransforms
 
-include("test/ntt.jl")
+include("ntt.jl")
