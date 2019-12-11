@@ -10,3 +10,5 @@ This package will provide implementations of NTT, MNT and FNT
 ## TODO
 - Mersenne Number Transform
 - Fermat Number Transform
+- Reorganize code to not pass g an q explicitly
+- Above may be solved with a heuristics about g and q based on the input length

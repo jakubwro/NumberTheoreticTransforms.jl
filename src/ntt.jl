@@ -39,7 +39,7 @@ end
 # end
 
 # TODO: change implementation to handle any number of dimensions
-# it can be done calling N-1 dimensional transfor in a loop
+# it can be done calling N-1 dimensional transform in a loop
 function ntt(g::T, q::T, x::Array{T,2}) where {T <: Integer}
     N, M = size(x)
     @assert N == M
