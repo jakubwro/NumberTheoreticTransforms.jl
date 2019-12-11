@@ -1,5 +1,5 @@
 
-export ntt, intt, ntt2
+export ntt, intt
 
 function ntt(g::T, q::T, x::Array{T,1}) where {T <: Integer}
     N = length(x)
@@ -38,10 +38,12 @@ end
 #     return reshape(intt(g, q, reshape(y, length(y))), size(y))
 # end
 
+# TODO: change implementation to handle any number of dimensions
+# it can be done calling N-1 dimensional transfor in a loop
 function ntt(g::T, q::T, x::Array{T,2}) where {T <: Integer}
     N, M = size(x)
     @assert N == M
-    y = ones(T, size(x))
+    y = zeros(T, size(x))
 
     for n in 1:N
         y[n, :] = ntt(g, q, x[n, :])
