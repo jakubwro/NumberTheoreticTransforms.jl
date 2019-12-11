@@ -30,7 +30,7 @@ using Primes
 
 function ntt_params_n(n)
     for q in primes(n, 1000000n)
-        for g in 2:min(q, 10)
+        for g in 2:min(q, 100)
             if mod(q - 1, n) == 0 && powermod(g, n, q) == 1 && !(1 in powermod.(g, 2:n - 1, q))
                 @show g, q, n
             end
