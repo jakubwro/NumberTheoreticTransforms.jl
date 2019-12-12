@@ -2,9 +2,9 @@
 DocTestSetup = :(using NumberTheoreticTransforms)
 ```
 
-# Transforms
+# Number Theoretic Transforms
 
-## General Number Theoretic Transform
+## Number Theoretic Transform
 
 ```@docs
 NumberTheoreticTransforms.ntt
@@ -21,5 +21,6 @@ NumberTheoreticTransforms.imnt
 ## Fermat Number Transform
 
 ```@docs
-
+NumberTheoreticTransforms.fnt
+NumberTheoreticTransforms.ifnt
 ```

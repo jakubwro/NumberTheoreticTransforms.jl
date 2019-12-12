@@ -2,6 +2,9 @@
 
 export mnt, imnt
 
+"""
+    mnt(p, x)
+"""
 function mnt(p::T, x::Array{T,1}) where {T <: Integer}
     N = length(x)
     q = 2^p - 1
@@ -14,6 +17,9 @@ function mnt(p::T, x::Array{T,1}) where {T <: Integer}
     return mod.(t * x, q)
 end
 
+"""
+    imnt(p, y)
+"""
 function imnt(p::T, y::Array{T,1}) where {T <: Integer}
     N = length(y)
     q = 2^p - 1

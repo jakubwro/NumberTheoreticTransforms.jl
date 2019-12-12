@@ -17,6 +17,15 @@
 
 export ntt, intt
 
+"""
+    ntt(g, q, x)
+
+Number Theoretic Transform implementation directly from the formula.
+It is flexible about choosing transformation params but lacks performance.   
+
+``\\bar{x}_k = \\sum_{n=1}^N{x_n g^{(n-1)(k-1)} } \\mod q``
+
+"""
 function ntt(g::T, q::T, x::Array{T,1}) where {T <: Integer}
     N = length(x)
     #TODO: more validation of p,q, decompose it to struct
@@ -30,6 +39,14 @@ function ntt(g::T, q::T, x::Array{T,1}) where {T <: Integer}
     return mod.(t * x, q)
 end
 
+"""
+    intt(g, q, y)
+
+Inverse Number Theoretic Transform implementation directly from the formula.
+
+``x_k = N^{-1} \\sum_{n=1}^N{\\bar{x}_n g^{-(n-1)(k-1)} } \\mod q``
+
+"""
 function intt(g::T, q::T, y::Array{T,1}) where {T <: Integer}
     N = length(y)
     @assert mod(q - 1, N) == 0
