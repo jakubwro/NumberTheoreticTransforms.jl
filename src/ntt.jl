@@ -25,25 +25,29 @@ transforms data in a similar fashion to DFT, but instead complex roots of unity
 it uses integer roots with all operation defined in a finite field (modulo an
 integer number).
 
-`ntt` function implements Number Theoretic Transform directly from the formula.
+`ntt` function implements Number Theoretic Transform directly from the formula,
+so it is flexible about choosing transformation params but lacks performance.
 
 ``\\bar{x}_k = \\sum_{n=1}^N{x_n g^{(n-1)(k-1)} } \\mod q``
 
-It is flexible about choosing transformation params but lacks performance.
-
-There is alse few constraints on choosing parameteres and input length to
-ensure that inverse exists and equals to original input. (TODO: list constraints)
+There is also a few constraints on choosing parameteres and input length to
+ensure that inverse exists and equals to the original input. (TODO: list constraints)
 
 The arguments of `ntt` function are
 
--   `g`: transform exponential, must have inversion modulo q 
--   `q`: transform calculations are done modulo q
--   `x`: input data its elements must be smaller than q
+-   `g`: transform power base, must have inversion modulo q 
+-   `q`: defines modulo arithmetic (all operations are done 'mod q')
+-   `x`: input data, its elements must be smaller than q
 """
 function ntt(g::T, q::T, x::Array{T,1}) where {T<:Integer}
     N = length(x)
     #TODO: more validation of p,q, decompose it to struct
     #TODO: create transform object that validates input in the constructor
+
+    (lo, hi) = extrema(x)
+    @assert lo >= 0
+    @assert hi <= q-1
+
     @assert mod(q - 1, N) == 0 
     @assert powermod(g, N, q) == 1
     @assert !(1 in powermod.(g, 2:N-1, q))
