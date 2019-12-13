@@ -60,7 +60,7 @@ end
 
 function ntt(g::T, q::T, x::Array{T,2}) where {T<:Integer}
     N, M = size(x)
-    @assert N == M #TODO: make it worl for N != M (need different g for each dim)
+    @assert N == M #TODO: make it work for N != M (need different g for each dim)
     y = zeros(T, size(x))
 
     for n in 1:N
