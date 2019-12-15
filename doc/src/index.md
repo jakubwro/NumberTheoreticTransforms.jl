@@ -2,8 +2,11 @@
 
 ---
 
-This package provides function for calculating number theoretic transforms
-and their inverses.
+This package provides implementations of general Number Theoretic Transform and
+its special cases: Mersenne Number Transform and Fermat Number Transform. The
+last one can be computed with a FFT-like radix-2 DIT algorithm. The aim of this
+package isn't beating FFT with performance but rather accuracy in solving
+inverse problems like [deconvolution](https://github.com/JuliaDSP/Deconvolution.jl).
 
 ## Installation
 
@@ -14,3 +17,19 @@ To install it, run
 Pkg.add("https://github.com/jakubwro/NumberTheoreticTransforms.jl")
 ```
 from the Julia REPL.
+
+## Documentation
+
+The complete manual of `NumberTheoreticTransforms.jl` is available at
+https://jakubwro.github.io/NumberTheoreticTransforms.jl/dev.
+
+## Development
+
+The package is developed at https://github.com/jakubwro/NumberTheoreticTransforms.jl.
+There you can submit bug reports, propose new calculation algorithms with pull
+requests, and make suggestions. 
+
+## License
+
+The `NumberTheoreticTransforms.jl` package is licensed under the MIT License.  The
+original author is Jakub Wronowski.
