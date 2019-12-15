@@ -1,4 +1,6 @@
-using Test, NumberTheoreticTransforms
+using Test, NumberTheoreticTransforms, Random
+
+Random.seed!(42)
 
 include("ntt.jl")
 include("mnt.jl")
