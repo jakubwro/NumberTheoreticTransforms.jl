@@ -17,9 +17,6 @@
 
 export fnt, fnt!, ifnt, ifnt!
 
-# TODO: change order of arguments to march style guide
-# https://docs.julialang.org/en/v1/manual/style-guide/index.html#Write-functions-with-argument-ordering-similar-to-Julia-Base-1
-
 """
 Checks if a given number is a Fermat number \$ 2^{2^t}-1 \$.
 """

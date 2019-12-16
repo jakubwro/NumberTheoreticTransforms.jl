@@ -65,6 +65,9 @@ function ntt(x::Array{T,1}, g::T, q::T) where {T<:Integer}
     return mod.(t * x, q)
 end
 
+# TODO: change implementation to handle any number of dimensions
+# it can be done calling N-1 dimensional transform in a loop
+
 function ntt(x::Array{T,2}, g::T, q::T) where {T<:Integer}
     N, M = size(x)
     @assert N == M #TODO: make it work for N != M (need different g for each dim)
@@ -126,7 +129,3 @@ end
 # function intt(g::T, q::T, y::Array{T,N}) where {T <: Integer,N}
 #     return reshape(intt(g, q, reshape(y, length(y))), size(y))
 # end
-
-# TODO: change implementation to handle any number of dimensions
-# it can be done calling N-1 dimensional transform in a loop
-
