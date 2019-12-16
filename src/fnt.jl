@@ -1,5 +1,24 @@
+### fnt.jl
+#
+# Copyright (C) 2019 Jakub Wronowski.
+#
+# Maintainer: Jakub Wronowski <jakubwro@users.noreply.github.com>
+# Keywords: number theoretic transform, fermat number transform
+#
+# This file is a part of NumberTheoreticTransforms.jl.
+#
+# License is MIT.
+#
+### Commentary:
+#
+# This file contains implementation of Fermat Number Transform.
+#
+### Code:
 
 export fnt, ifnt
+
+# TODO: change order of arguments to march style guide
+# https://docs.julialang.org/en/v1/manual/style-guide/index.html#Write-functions-with-argument-ordering-similar-to-Julia-Base-1
 
 """
 Checks if a given number is a Fermat number \$ 2^{2^t}-1 \$.
@@ -37,7 +56,7 @@ function radix2sort!(data::Array{T, 1}) where {T<:Integer}
     return data
 end
 
-function fnt!(g::T, q::T, x::Array{T, 1}) where {T<:Integer}
+function fnt!(x::Array{T, 1}, g::T, q::T) where {T<:Integer}
     N = length(x)
     @assert ispow2(N)
 
@@ -61,21 +80,21 @@ function fnt!(g::T, q::T, x::Array{T, 1}) where {T<:Integer}
     return x
 end
 
-function fnt(g::T, q::T, x::Array{T, 1}) where {T<:Integer}
-    return fnt!(g, q, copy(x))
+function fnt(x::Array{T, 1}, g::T, q::T) where {T<:Integer}
+    return fnt!(copy(x), g, q)
 end
 
-function fnt(g::T, q::T, x::Array{T,2}) where {T<:Integer}
+function fnt(x::Array{T,2}, g::T, q::T) where {T<:Integer}
     N, M = size(x)
     @assert N == M #TODO: make it work for N != M (need different g for each dim)
     y = zeros(T, size(x))
 
     for n in 1:N
-        y[n, :] = fnt(g, q, x[n, :])
+        y[n, :] = fnt(x[n, :], g, q)
     end
 
     for m in 1:M
-        y[:, m] = fnt(g, q, y[:, m])
+        y[:, m] = fnt(y[:, m], g, q)
     end
 
     return y
@@ -89,29 +108,29 @@ mod \$ 2^{2^t}-1 \$.
 
 The input must be array of integers caculated with the same `t` param.
 """
-function ifnt!(g::T, q::T, y::Array{T,1}) where {T<:Integer}
+function ifnt!(y::Array{T,1}, g::T, q::T) where {T<:Integer}
     N = length(y)
-    x = fnt!(invmod(g, q), q, y)
+    x = fnt!(y, invmod(g, q), q)
 
     x[1:end] = mod.(invmod(N, q) * x[1:end], q)
 
     return x   
 end
 
-function ifnt(g::T, q::T, y::Array{T,1}) where {T<:Integer}
-    return ifnt!(g, q, copy(y))
+function ifnt(y::Array{T,1}, g::T, q::T) where {T<:Integer}
+    return ifnt!(copy(y), g, q)
 end
 
-function ifnt(g::T, q::T, y::Array{T,2}) where {T<:Integer}
+function ifnt(y::Array{T,2}, g::T, q::T) where {T<:Integer}
     N, M = size(y)
     x = zeros(T, size(y))
 
     for m in 1:M
-        x[:, m] = ifnt(g, q, y[:, m])
+        x[:, m] = ifnt(y[:, m], g, q)
     end
 
     for n in 1:N
-        x[n, :] = ifnt(g, q, x[n, :])
+        x[n, :] = ifnt(x[n, :], g, q)
     end
     
     return x

@@ -22,12 +22,12 @@ blur_int = fftshift(blur_int)
 blurred_image_float = ifft(fft(image_float) .* fft(fftshift(blur_float))) |> real
 
 (g, q, n) = (4, 274177, 64)
-X = ntt(g, q, image_int)
-@assert intt(g, q, X) == image_int
-H = ntt(g, q, blur_int)
-@assert intt(g, q, H) == blur_int
+X = ntt(image_int, g, q)
+@assert intt(X, g, q) == image_int
+H = ntt( blur_int, g, q)
+@assert intt(H, g, q) == blur_int
 Y = mod.((X .* H), q)
-y = intt(g, q, Y)
+y = intt(Y, g, q)
 blurred_image_int = y / 2^16
 
 using Statistics

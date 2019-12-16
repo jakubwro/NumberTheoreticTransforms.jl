@@ -2,12 +2,12 @@
     g = 2
     q = 31
     x = [1:5;]
-    @test intt(g, q, ntt(g, q, x)) == x
+    @test intt(ntt(x, g, q), g, q) == x
 
     g = 3
     q = 257
     x = [1:256;]
-    @test intt(g, q, ntt(g, q, x)) == x
+    @test intt(ntt(x, g, q), g, q) == x
 end
 
 @testset "1D convolution with NTT" begin
@@ -19,11 +19,11 @@ end
     x = [1:8; zeros(Int64, 7);]
     h = [1:8; zeros(Int64, 7);]
 
-    X = ntt(g, q, x)
-    H = ntt(g, q, h)
+    X = ntt(x, g, q)
+    H = ntt(h, g, q)
     Y = X .* H
 
-    y = intt(g, q, Y)
+    y = intt(Y, g, q)
     
     @test y == DSP.conv(1:8, 1:8)
 end
@@ -32,20 +32,20 @@ end
     g = 16
     q = 257
     x = reshape([1:16;] , (4,4))
-    y = ntt(g, q, x)
-    @test intt(g, q, y) == x
+    y = ntt(x, g, q)
+    @test intt(y, g, q) == x
 
     g = 4
     q = 17
     x = reshape([1:16;] , (4,4))
-    y = ntt(g, q, x)
-    @test intt(g, q, y) == x
+    y = ntt(x, g, q)
+    @test intt(y, g, q) == x
 
     g = 7
     q = 19
     x = reshape([1:9;] , (3,3))
-    y = ntt(g, q, x)
-    @test intt(g, q, y) == x
+    y = ntt(x, g, q)
+    @test intt(y, g, q) == x
 end
 
 @testset "2D convolution with NTT" begin
@@ -62,11 +62,11 @@ end
     h_padded = zeros(Int64, 7, 7)
     h_padded[1:4, 1:4] = h
 
-    X = ntt(g, q, x_padded)
-    H = ntt(g, q, h_padded)
+    X = ntt(x_padded, g, q)
+    H = ntt(h_padded, g, q)
     Y = X .* H
 
-    y = intt(g, q, Y)
+    y = intt(Y, g, q)
     
     @test y == DSP.conv(x, h)
 end

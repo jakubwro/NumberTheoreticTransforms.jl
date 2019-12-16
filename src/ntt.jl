@@ -18,7 +18,7 @@
 export ntt, intt
 
 """
-    ntt(g, q, x::Array{T,1}) -> Array{T,1}
+    ntt(x::Array{T,1}, g, q) -> Array{T,1}
 
 The [Number Theoretic Transform](https://en.wikipedia.org/wiki/Discrete_Fourier_transform_(general)#Number-theoretic_transform)
 transforms data in a similar fashion to DFT, but instead complex roots of unity
@@ -35,11 +35,11 @@ ensure that inverse exists and equals to the original input. (TODO: list constra
 
 The arguments of `ntt` function are
 
+-   `x`: input data, its elements must be smaller than q
 -   `g`: transform power base, must have inversion modulo q 
 -   `q`: defines modulo arithmetic (all operations are done 'mod q')
--   `x`: input data, its elements must be smaller than q
 """
-function ntt(g::T, q::T, x::Array{T,1}) where {T<:Integer}
+function ntt(x::Array{T,1}, g::T, q::T) where {T<:Integer}
     N = length(x)
     #TODO: more validation of p,q, decompose it to struct
     #TODO: create transform object that validates input in the constructor
@@ -58,24 +58,24 @@ function ntt(g::T, q::T, x::Array{T,1}) where {T<:Integer}
     return mod.(t * x, q)
 end
 
-function ntt(g::T, q::T, x::Array{T,2}) where {T<:Integer}
+function ntt(x::Array{T,2}, g::T, q::T) where {T<:Integer}
     N, M = size(x)
     @assert N == M #TODO: make it work for N != M (need different g for each dim)
     y = zeros(T, size(x))
 
     for n in 1:N
-        y[n, :] = ntt(g, q, x[n, :])
+        y[n, :] = ntt(x[n, :], g, q)
     end
 
     for m in 1:M
-        y[:, m] = ntt(g, q, y[:, m])
+        y[:, m] = ntt(y[:, m], g, q)
     end
 
     return y
 end
 
 """
-    intt(g, q, y::Array{T,1}) -> Array{T,1}
+    intt(y::Array{T,1}, g, q) -> Array{T,1}
 
 Inverse Number Theoretic Transform implementation directly from the formula.
 
@@ -83,7 +83,7 @@ Inverse Number Theoretic Transform implementation directly from the formula.
 
 The same input parameters constraints as for `ntt` function must be applied
 """
-function intt(g::T, q::T, y::Array{T,1}) where {T<:Integer}
+function intt(y::Array{T,1}, g::T, q::T) where {T<:Integer}
     N = length(y)
     @assert mod(q - 1, N) == 0
     @assert powermod(g, N, q) == 1
@@ -96,21 +96,20 @@ function intt(g::T, q::T, y::Array{T,1}) where {T<:Integer}
     return mod.(inv_N * t * y, q)
 end
 
-function intt(g::T, q::T, y::Array{T,2}) where {T<:Integer}
+function intt(y::Array{T,2}, g::T, q::T) where {T<:Integer}
     N, M = size(y)
     x = zeros(T, size(y))
 
     for m in 1:M
-        x[:, m] = intt(g, q, y[:, m])
+        x[:, m] = intt(y[:, m], g, q)
     end
 
     for n in 1:N
-        x[n, :] = intt(g, q, x[n, :])
+        x[n, :] = intt(x[n, :], g, q)
     end
     
     return x
 end
-
 
 # those implementations are incorrect but transform results were interesing anyway
 # TODO: check if those calculations are useful
