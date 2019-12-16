@@ -18,6 +18,16 @@
 export ntt, intt
 
 """
+Constraints on NTT params to ensure that inverse can be computed
+"""
+function validate(N, g, q)
+    @assert mod(q - 1, N) == 0 
+    @assert powermod(g, N, q) == 1
+    @assert !(1 in powermod.(g, 2:N-1, q)) # this may be redundant
+    @assert gcd(N, q) == 1
+end
+
+"""
     ntt(x::Array{T,1}, g, q) -> Array{T,1}
 
 The [Number Theoretic Transform](https://en.wikipedia.org/wiki/Discrete_Fourier_transform_(general)#Number-theoretic_transform)
@@ -44,14 +54,11 @@ function ntt(x::Array{T,1}, g::T, q::T) where {T<:Integer}
     #TODO: more validation of p,q, decompose it to struct
     #TODO: create transform object that validates input in the constructor
 
+    validate(N, g, q)
     (lo, hi) = extrema(x)
     @assert lo >= 0
     @assert hi <= q-1
 
-    @assert mod(q - 1, N) == 0 
-    @assert powermod(g, N, q) == 1
-    @assert !(1 in powermod.(g, 2:N-1, q))
-    @assert gcd(length(x), q) == 1
 
     t = [powermod(g, n * k, q) for n in 0:N-1, k in 0:N-1]
     #TODO: make result of ntt a struct that will hold infrmation about g
@@ -85,10 +92,8 @@ The same input parameters constraints as for `ntt` function must be applied
 """
 function intt(y::Array{T,1}, g::T, q::T) where {T<:Integer}
     N = length(y)
-    @assert mod(q - 1, N) == 0
-    @assert powermod(g, N, q) == 1
-    @assert !(1 in powermod.(g, 2:N-1, q))
-    @assert gcd(length(y), q) == 1
+   
+    validate(N, g, q)
     
     inv_g = invmod(g, q)
     inv_N = invmod(N, q)

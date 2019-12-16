@@ -59,6 +59,7 @@ end
 function fnt!(x::Array{T, 1}, g::T, q::T) where {T<:Integer}
     N = length(x)
     @assert ispow2(N)
+    @assert isfermat(q)
 
     radix2sort!(x)
 
