@@ -10,7 +10,7 @@
     @test intt(ntt(x, g, q), g, q) == x
 end
 
-@testset "NTT 1D" begin
+@testset "NTT 1D convolution" begin
     using DSP
 
     g = 9

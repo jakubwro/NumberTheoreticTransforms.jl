@@ -5,9 +5,9 @@
 [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://jakubwro.github.io/NumberTheoreticTransforms.jl/dev)
 
 This package provides implementations of general Number Theoretic Transform and
-its special case: Fermat Number Transform. The
-last one can be computed with a FFT-like radix-2 DIT algorithm, although the
-goal of this package isn't beating FFT with performance but rather accuracy in
+Fermat Number Transform which is a special case of NTT. The
+last one is computed with a FFT-like radix-2 DIT algorithm, although the
+goal of this package is not beating FFT with performance but rather accuracy in
 solving inverse problems like
 [deconvolution](https://github.com/JuliaDSP/Deconvolution.jl).
 

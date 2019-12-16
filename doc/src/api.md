@@ -15,5 +15,7 @@ NumberTheoreticTransforms.intt
 
 ```@docs
 NumberTheoreticTransforms.fnt
+NumberTheoreticTransforms.fnt!
 NumberTheoreticTransforms.ifnt
+NumberTheoreticTransforms.ifnt!
 ```
