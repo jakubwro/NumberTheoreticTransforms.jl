@@ -84,6 +84,6 @@ end
     y = fnt(x, g, q)
     @test x != y
     fnt!(x, g, q)
-    x == y
+    @test x == y
 
 end
