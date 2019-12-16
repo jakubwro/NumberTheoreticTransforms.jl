@@ -15,7 +15,7 @@
 #
 ### Code:
 
-export fnt, ifnt
+export fnt, fnt!, ifnt, ifnt!
 
 # TODO: change order of arguments to march style guide
 # https://docs.julialang.org/en/v1/manual/style-guide/index.html#Write-functions-with-argument-ordering-similar-to-Julia-Base-1
@@ -80,24 +80,23 @@ function fnt!(x::Array{T, 1}, g::T, q::T) where {T<:Integer}
     return x
 end
 
-function fnt(x::Array{T, 1}, g::T, q::T) where {T<:Integer}
-    return fnt!(copy(x), g, q)
-end
-
-function fnt(x::Array{T,2}, g::T, q::T) where {T<:Integer}
+function fnt!(x::Array{T,2}, g::T, q::T) where {T<:Integer}
     N, M = size(x)
     @assert N == M #TODO: make it work for N != M (need different g for each dim)
-    y = zeros(T, size(x))
 
     for n in 1:N
-        y[n, :] = fnt(x[n, :], g, q)
+        x[n, :] = fnt!(x[n, :], g, q)
     end
 
     for m in 1:M
-        y[:, m] = fnt(y[:, m], g, q)
+        x[:, m] = fnt!(x[:, m], g, q)
     end
 
-    return y
+    return x
+end
+
+function fnt(x::Array{T}, g::T, q::T) where {T<:Integer}
+    return fnt!(copy(x), g, q)
 end
 
 """
@@ -117,21 +116,20 @@ function ifnt!(y::Array{T,1}, g::T, q::T) where {T<:Integer}
     return x   
 end
 
-function ifnt(y::Array{T,1}, g::T, q::T) where {T<:Integer}
-    return ifnt!(copy(y), g, q)
-end
-
-function ifnt(y::Array{T,2}, g::T, q::T) where {T<:Integer}
+function ifnt!(y::Array{T,2}, g::T, q::T) where {T<:Integer}
     N, M = size(y)
-    x = zeros(T, size(y))
 
     for m in 1:M
-        x[:, m] = ifnt(y[:, m], g, q)
+        y[:, m] = ifnt!(y[:, m], g, q)
     end
 
     for n in 1:N
-        x[n, :] = ifnt(x[n, :], g, q)
+        y[n, :] = ifnt!(y[n, :], g, q)
     end
     
-    return x
+    return y
+end
+
+function ifnt(y::Array{T}, g::T, q::T) where {T<:Integer}
+    return ifnt!(copy(y), g, q)
 end

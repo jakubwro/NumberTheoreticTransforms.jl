@@ -68,3 +68,22 @@ end
     
     @test y[1:15, 1:15] == DSP.conv(x, h)
 end
+
+@testset "Inplace version of transform" begin
+    t = 2
+    q = 2^2^t + 1
+    g = 2
+
+    x = mod.(rand(Int, 8), q)
+    y = fnt(x, g, q)
+    @test x != y
+    fnt!(x, g, q)
+    @test x == y
+
+    x = mod.(rand(Int, 8, 8), q)
+    y = fnt(x, g, q)
+    @test x != y
+    fnt!(x, g, q)
+    x == y
+
+end
