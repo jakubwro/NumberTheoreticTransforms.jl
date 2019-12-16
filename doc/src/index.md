@@ -3,7 +3,7 @@
 ---
 
 This package provides implementations of general Number Theoretic Transform and
-its special cases: Mersenne Number Transform and Fermat Number Transform. The
+its special case: Fermat Number Transform. The
 last one can be computed with a FFT-like radix-2 DIT algorithm. The aim of this
 package isn't beating FFT with performance but rather accuracy in solving
 inverse problems like [deconvolution](https://github.com/JuliaDSP/Deconvolution.jl).
