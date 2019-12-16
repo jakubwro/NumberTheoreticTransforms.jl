@@ -1,5 +1,5 @@
 
-@testset "1D Fermat Number Transform" begin
+@testset "FNT 1D" begin
     for t in BigInt.(1:10) #TODO: increase range when fnt optimized, should handle t = 20
         x = [1:2^(t+1);] .|> BigInt
         g = 2 |> BigInt
@@ -8,7 +8,7 @@
     end
 end
 
-@testset "FNT and NTT coherence checks" begin
+@testset "FNT and NTT coherence" begin
     # FNT is special case with faster implementation of general NTT and should
     # give the same results 
     t = 2
@@ -18,7 +18,7 @@ end
     @test fnt(x, 2, F_t) == ntt(x, 2, F_t)
 end
 
-@testset "1D convolution with FNT" begin
+@testset "FNT 1D convolution" begin
     using DSP
 
     t = 3
@@ -35,7 +35,7 @@ end
     @test y[1:15] == DSP.conv(1:8, 1:8)
 end
 
-@testset "2D Fermat Number Transform" begin
+@testset "FNT 2D" begin
     t = 2
     q = 2^2^t + 1
     g = 2
@@ -49,7 +49,7 @@ end
     @test ifnt(fnt(x, g, q), g, q) == x
 end
 
-@testset "2D convolution with FNT" begin
+@testset "FNT 2D convolution" begin
     using DSP
 
     t = 3
@@ -69,7 +69,7 @@ end
     @test y[1:15, 1:15] == DSP.conv(x, h)
 end
 
-@testset "Inplace version of transform" begin
+@testset "FNT in-place" begin
     t = 2
     q = 2^2^t + 1
     g = 2

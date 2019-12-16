@@ -1,4 +1,4 @@
-@testset "1D Number Theoretic Transform" begin
+@testset "NTT 1D" begin
     g = 2
     q = 31
     x = [1:5;]
@@ -10,7 +10,7 @@
     @test intt(ntt(x, g, q), g, q) == x
 end
 
-@testset "1D convolution with NTT" begin
+@testset "NTT 1D" begin
     using DSP
 
     g = 9
@@ -28,7 +28,7 @@ end
     @test y == DSP.conv(1:8, 1:8)
 end
 
-@testset "2D Number Theoretic Transform" begin
+@testset "NTT 2D" begin
     g = 16
     q = 257
     x = reshape([1:16;] , (4,4))
@@ -48,7 +48,7 @@ end
     @test intt(y, g, q) == x
 end
 
-@testset "2D convolution with NTT" begin
+@testset "NTT 2D convolution" begin
     using DSP
 
     (g, q, n) = (7, 4733, 7)

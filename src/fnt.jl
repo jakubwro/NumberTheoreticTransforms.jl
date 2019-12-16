@@ -68,10 +68,12 @@ function fnt!(x::Array{T, 1}, g::T, q::T) where {T<:Integer}
     for M in 2 .^ [0:logN-1;] # TODO: not very readable
         interval = 2M
         for m in 1:M
+            p = div(N,interval)
             for i in m:interval:N
                j = i + M
-               W = powermod(g, div(N,interval)*(m-1), q) # TODO: can be moved higher
-               x[i], x[j] = x[i] + W * x[j], x[i] - W * x[j]
+               W = powermod(g, p*(m-1), q)
+               Wxj = W * x[j]
+               x[i], x[j] = x[i] + Wxj, x[i] - Wxj
                x[i] = mod(x[i], q)
                x[j] = mod(x[j], q)
             end
