@@ -4,7 +4,8 @@ makedocs(modules = [NumberTheoreticTransforms],
          sitename = "NumberTheoreticTransforms.jl",
          pages = Any[
             "Home" => "index.md",
-            "Functions" => "api.md"
+            "Functions" => "api.md",
+            "Examples" => "examples.md"
         ])
 
 deploydocs(
