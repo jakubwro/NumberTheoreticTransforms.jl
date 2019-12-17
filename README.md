@@ -6,9 +6,9 @@
 
 This package provides implementations of general Number Theoretic Transform and
 Fermat Number Transform which is a special case of NTT. The
-last one is computed with a FFT-like radix-2 DIT algorithm, although the
-goal of this package is not beating FFT with performance but rather accuracy in
-solving inverse problems like
+latter is computed with a FFT-like radix-2 DIT algorithm, although the
+goal of this package is not to outperform FFT but rather yield more accurate
+results solving inverse problems like
 [deconvolution](https://github.com/JuliaDSP/Deconvolution.jl).
 
 ## Installation
