@@ -40,14 +40,14 @@ so it is flexible about choosing transformation params but lacks performance.
 
 ``\\bar{x}_k = \\sum_{n=1}^N{x_n g^{(n-1)(k-1)} } \\mod q``
 
-There is also a few constraints on choosing parameteres and input length to
+There is also a few constraints on choosing parameters and input length to
 ensure that inverse exists and equals to the original input. (TODO: list constraints)
 
 The arguments of `ntt` function are
 
 -   `x`: input data, its elements must be smaller than q
 -   `g`: transform power base, must have inversion modulo q 
--   `q`: defines modulo arithmetic (all operations are done 'mod q')
+-   `q`: defines modulo arithmetic
 """
 function ntt(x::Array{T,1}, g::T, q::T) where {T<:Integer}
     N = length(x)

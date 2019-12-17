@@ -18,7 +18,7 @@
 export fnt, fnt!, ifnt, ifnt!
 
 """
-Checks if a given number is a Fermat number \$ 2^{2^t}-1 \$.
+Checks if a given number is a Fermat number \$ 2^{2^t}+1 \$.
 """
 function isfermat(number::T) where {T<:Integer}
     if !ispow2(number-1)
@@ -104,7 +104,7 @@ end
     fnt(x, g, q)
 
 The Fermat Number Transform returns the same result as `ntt` function using
-more performant algorithm. When `q` has \$ 2^{2^t}-1 \$ form the calculation
+more performant algorithm. When `q` has \$ 2^{2^t}+1 \$ form the calculation
 can be performed with O(N*log(N)) operation instead of O(N^2) for `ntt`.
 """
 function fnt(x::Array{T}, g::T, q::T) where {T<:Integer}
@@ -112,9 +112,9 @@ function fnt(x::Array{T}, g::T, q::T) where {T<:Integer}
 end
 
 """
-    ifnt!(x, g, q)
+    ifnt!(y, g, q)
 
-In-place version of `ifnt`. That means it will store result in the `x` array.
+In-place version of `ifnt`. That means it will store result in the `y` array.
 """
 function ifnt!(y::Array{T,1}, g::T, q::T) where {T<:Integer}
     N = length(y)
@@ -143,9 +143,9 @@ end
     ifnt(y, g, q)
 
 Calculates inverse of Fermat Number Transform for array `y` using
-mod \$ 2^{2^t}-1 \$ arithmetic.
+mod \$ 2^{2^t}+1 \$ arithmetic.
 
-The input must be array of integers caculated by `fnt` function with the same
+The input must be array of integers calculated by `fnt` function with the same
 `g` and `q` params.
 """
 function ifnt(y::Array{T}, g::T, q::T) where {T<:Integer}
