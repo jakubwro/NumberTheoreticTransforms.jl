@@ -1,7 +1,7 @@
 name = "NumberTheoreticTransforms"
 uuid = "8497c1d1-af72-4391-8d22-bdd566511a1c"
 authors = ["Jakub Wronowski <jakubwro@users.noreply.github.com>"]
-version = "0.1.0"
+version = "0.1.1"
 
 [compat]
 julia = "1"
