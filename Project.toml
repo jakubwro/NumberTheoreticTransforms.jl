@@ -3,6 +3,9 @@ uuid = "8497c1d1-af72-4391-8d22-bdd566511a1c"
 authors = ["Jakub Wronowski <jakubwro@users.noreply.github.com>"]
 version = "0.1.0"
 
+[compat]
+julia = "1"
+
 [extras]
 DSP = "717857b8-e6f2-59f4-9121-6e50c889abd2"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
