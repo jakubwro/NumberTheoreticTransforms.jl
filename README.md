@@ -18,7 +18,7 @@ The package is available for Julia versions 1.0 and up.
 To install it, run
 ```julia
 using Pkg
-Pkg.add(PackageSpec(url="https://github.com/jakubwro/NumberTheoreticTransforms.jl"))
+Pkg.add("NumberTheoreticTransforms")
 ```
 from the Julia REPL.
 
