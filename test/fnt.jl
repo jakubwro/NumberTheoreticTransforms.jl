@@ -29,7 +29,7 @@ end
     h = [1:8; zeros(Int, 8);]
     X = fnt(x, g, q)
     H = fnt(h, g, q)
-    Y = X .* H
+    Y = mod.(X .* H, q)
     y = ifnt(Y, g, q)
     
     @test y[1:15] == DSP.conv(1:8, 1:8)
@@ -63,7 +63,7 @@ end
     h_padded[1:8, 1:8] = h
     X = fnt(x_padded, g, q)
     H = fnt(h_padded, g, q)
-    Y = X .* H
+    Y = mod.(X .* H, q)
     y = ifnt(Y, g, q)
     
     @test y[1:15, 1:15] == DSP.conv(x, h)
@@ -86,4 +86,10 @@ end
     fnt!(x, g, q)
     @test x == y
 
+end
+
+@testset "FNT fails for non fermat modulus" begin
+    (g, q, n) = (2, 33, 10)
+    x = [1:n;]
+    @test_throws AssertionError fnt(x, g, q)
 end

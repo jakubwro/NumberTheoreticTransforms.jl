@@ -21,11 +21,11 @@ export fnt, fnt!, ifnt, ifnt!
 Checks if a given number is a Fermat number \$ 2^{2^t}+1 \$.
 """
 function isfermat(number::T) where {T<:Integer}
-    if !ispow2(number-1)
+    if !ispow2(number - one(T))
         return false
     end
 
-    return ispow2(T(ceil(log2(number-1)))) # TODO: avoid operations on float
+    return ispow2(trailing_zeros(number - one(T)))
 end
 
 """
@@ -57,23 +57,31 @@ function fnt!(x::Array{T, 1}, g::T, q::T) where {T<:Integer}
     N = length(x)
     @assert ispow2(N)
     @assert isfermat(q)
+    @assert all(v -> 0 <= v < q, x)
 
     radix2sort!(x)
 
-    logN = log2(N) |> ceil |> T
+    logN = trailing_zeros(N)
 
     for M in 2 .^ [0:logN-1;] # TODO: not very readable
         interval = 2M
+        p = div(N, interval)
+        gp = powermod(g, p, q)
+        W = 1
         for m in 1:M
-            p = div(N,interval)
             for i in m:interval:N
                j = i + M
-               W = powermod(g, p*(m-1), q)
-               Wxj = W * x[j]
-               x[i], x[j] = x[i] + Wxj, x[i] - Wxj
-               x[i] = mod(x[i], q)
-               x[j] = mod(x[j], q)
+               xi, xj = x[i], x[j]
+               Wxj = W * xj
+               Wxj = Wxj & (q - T(2)) - Wxj >>> trailing_zeros(q - T(1)) + q
+               Wxj = Wxj >= q ? Wxj - q : Wxj
+
+               xi, xj = xi + Wxj, xi - Wxj + q
+               xi = xi >= q ? xi - q : xi
+               xj = xj >= q ? xj - q : xj
+               x[i], x[j] = xi, xj
             end
+            W = mod(W * gp, q)
         end
     end
 
@@ -118,9 +126,13 @@ In-place version of `ifnt`. That means it will store result in the `y` array.
 """
 function ifnt!(y::Array{T,1}, g::T, q::T) where {T<:Integer}
     N = length(y)
-    x = fnt!(y, invmod(g, q), q)
+    inv_N = invmod(N, q)
+    inv_g = invmod(g, q)
 
-    x[1:end] = mod.(invmod(N, q) * x[1:end], q)
+    x = fnt!(y, inv_g, q)
+    for i in eachindex(x)
+        x[i] = mod(inv_N * x[i], q)
+    end
 
     return x   
 end
