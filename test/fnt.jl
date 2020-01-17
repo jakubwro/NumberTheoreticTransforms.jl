@@ -97,3 +97,11 @@ end
     x = [1:n;]
     @test_throws AssertionError fnt(x, g, q)
 end
+
+@testset "isfermat() tests" begin
+    known = map(n->2^2^n+1, [0:4;])
+    expected = map(v -> v in known, [1:maximum(known);])
+    actual = NumberTheoreticTransforms.isfermat.([1:maximum(known);])
+
+    @test expected == actual
+end
