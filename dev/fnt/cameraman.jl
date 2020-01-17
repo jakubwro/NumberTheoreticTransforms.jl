@@ -1,9 +1,4 @@
-using Images, TestImages
-using Deconvolution
-using FFTW
-using Colors
-using ZernikePolynomials
-using FFTW
+using Images, TestImages, Colors, ZernikePolynomials, FFTW
 using NumberTheoreticTransforms
 
 image_float = channelview(testimage("cameraman"))
