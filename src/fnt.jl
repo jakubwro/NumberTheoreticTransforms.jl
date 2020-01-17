@@ -63,9 +63,10 @@ function fnt!(x::Array{T, 1}, g::T, q::T) where {T<:Integer}
 
     logN = trailing_zeros(N)
 
-    for M in 2 .^ [0:logN-1;] # TODO: not very readable
-        interval = 2M
-        p = div(N, interval)
+    for l in 1:logN
+        M = 1 << (l-1) # [1,2,4,8,...,N/2]
+        interval = 1 << l # [2,4,8,...,N]
+        p = 1 << (logN - l) # [N/2,...,4,2,1]
         gp = powermod(g, p, q)
         W = 1
         for m in 1:M
