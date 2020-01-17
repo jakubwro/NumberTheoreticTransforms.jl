@@ -89,6 +89,10 @@ end
 end
 
 @testset "FNT fails for non fermat modulus" begin
+    (g, q, n) = (2, 31, 5)
+    x = [1:n;]
+    @test_throws AssertionError fnt(x, g, q)
+
     (g, q, n) = (2, 33, 10)
     x = [1:n;]
     @test_throws AssertionError fnt(x, g, q)
