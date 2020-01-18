@@ -101,7 +101,7 @@ end
 @testset "isfermat() tests" begin
     known = map(n->2^2^n+1, [0:4;])
     expected = map(v -> v in known, [1:maximum(known);])
-    actual = NumberTheoreticTransforms.isfermat.([1:maximum(known);])
+    actual = isfermat.([1:maximum(known);])
 
     @test expected == actual
 end
@@ -110,16 +110,14 @@ end
    
     for t in 0:3
         q = 2^2^t+1
-        for n in 0:(q-1)^2
-            @test mod.(n, q) == modfermat.(n, q)
-        end
+        x = 0:(q-1)^2
+        @test mod.(x, q) == modfermat.(x, q)
     end
 
     for t in 0:10
         q = BigInt(2)^2^5+1
         limit = (q-1)^2
-        for n in mod.(rand(0:limit, 1000), (q-1)^2)
-            @test mod.(n, q) == modfermat.(n, q)
-        end
+        x = mod.(rand(0:limit, 1000), (q-1)^2)
+        @test mod.(x, q) == modfermat.(x, q)
     end
 end
