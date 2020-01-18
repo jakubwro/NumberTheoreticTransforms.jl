@@ -115,7 +115,7 @@ end
     end
 
     for t in 0:10
-        q = BigInt(2)^2^5+1
+        q = BigInt(2)^2^t+1
         limit = (q-1)^2
         x = mod.(rand(0:limit, 1000), (q-1)^2)
         @test mod.(x, q) == modfermat.(x, q)
