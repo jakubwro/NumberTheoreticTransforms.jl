@@ -15,7 +15,7 @@
 #
 ### Code:
 
-export fnt, fnt!, ifnt, ifnt!
+export fnt, fnt!, ifnt, ifnt!, modfermat, isfermat
 
 """
 Checks if a given number is a Fermat number \$ 2^{2^t}+1 \$.
