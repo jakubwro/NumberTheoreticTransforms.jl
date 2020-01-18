@@ -1,4 +1,7 @@
-struct FindNTT{G<:Union{BigInt, Nothing}, Q<:Union{BigInt, Nothing}, N<:Union{Int, Nothing}}
+
+Maybe{T} = Union{T, Nothing}
+
+struct FindNTT{G<:Maybe{BigInt}, Q<:Maybe{BigInt}, N<:Maybe{Int}}
     g::G
     q::Q
     n::N

@@ -105,3 +105,21 @@ end
 
     @test expected == actual
 end
+
+@testset "modfermat() tests" begin
+   
+    for t in 0:3
+        q = 2^2^t+1
+        for n in 0:(q-1)^2
+            @test mod.(n, q) == modfermat.(n, q)
+        end
+    end
+
+    for t in 0:10
+        q = BigInt(2)^2^5+1
+        limit = (q-1)^2
+        for n in mod.(rand(0:limit, 1000), (q-1)^2)
+            @test mod.(n, q) == modfermat.(n, q)
+        end
+    end
+end

@@ -29,6 +29,16 @@ function isfermat(number::T) where {T<:Integer}
 end
 
 """
+Equivalent of mod(n, q) but uses faster algorithm.
+Parameter q must be a Fermat number \$ 2^{2^t}+1 \$.
+Parameter n must be less or equal to (q-1)^2
+"""
+function modfermat(n::T, q::T) where T <: Integer
+    x = n & (q - T(2)) - n >>> trailing_zeros(q - T(1)) + q
+    x = x >= q ? x - q : x
+end
+
+"""
 Order input to perform radix-2 structured calculation.
 It sorts array by bit-reversed 0-based sample index.
 """
@@ -73,16 +83,13 @@ function fnt!(x::Array{T, 1}, g::T, q::T) where {T<:Integer}
             for i in m:interval:N
                j = i + M
                xi, xj = x[i], x[j]
-               Wxj = W * xj
-               Wxj = Wxj & (q - T(2)) - Wxj >>> trailing_zeros(q - T(1)) + q
-               Wxj = Wxj >= q ? Wxj - q : Wxj
-
+               Wxj = modfermat(W * xj, q)
                xi, xj = xi + Wxj, xi - Wxj + q
-               xi = xi >= q ? xi - q : xi
-               xj = xj >= q ? xj - q : xj
+               xi = xi >= q ? xi - q : xi # mod q
+               xj = xj >= q ? xj - q : xj # mod q
                x[i], x[j] = xi, xj
             end
-            W = mod(W * gp, q)
+            W = modfermat(W * gp, q)
         end
     end
 
