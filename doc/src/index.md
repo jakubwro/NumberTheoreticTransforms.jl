@@ -30,7 +30,12 @@ The package is developed at https://github.com/jakubwro/NumberTheoreticTransform
 There you can submit bug reports, propose new calculation algorithms with pull
 requests, and make suggestions. 
 
+## Credits
+
+Amazing performance improvements for Fermat Number Transform implementation were suggested by Andrey Oskin in [this thread](https://discourse.julialang.org/t/performance-advice-needed/33467/11).
+
 ## License
 
-The `NumberTheoreticTransforms.jl` package is licensed under the MIT License.  The
-original author is Jakub Wronowski.
+The `NumberTheoreticTransforms.jl` package is licensed under the MIT License. The
+original author is Jakub Wronowski. Significant contributions were done by Andrey
+Oskin.

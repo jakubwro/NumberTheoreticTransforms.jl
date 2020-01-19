@@ -1,6 +1,7 @@
 ### fnt.jl
 #
-# Copyright (C) 2019 Jakub Wronowski.
+# Copyright (C) 2020 Andrey Oskin.
+# Copyright (C) 2020 Jakub Wronowski.
 #
 # Maintainer: Jakub Wronowski <jakubwro@users.noreply.github.com>
 # Keywords: number theoretic transform, fermat number transform
@@ -18,7 +19,9 @@
 export fnt, fnt!, ifnt, ifnt!, modfermat, isfermat
 
 """
-Checks if a given number is a Fermat number \$ 2^{2^t}+1 \$.
+    isfermat(n)
+
+    Checks if a given number is a Fermat number \$ 2^{2^t}+1 \$.
 """
 function isfermat(number::T) where {T<:Integer}
     if !ispow2(number - one(T))
@@ -29,9 +32,14 @@ function isfermat(number::T) where {T<:Integer}
 end
 
 """
+    modfermat(n, q)
+
 Equivalent of mod(n, q) but uses faster algorithm.
-Parameter q must be a Fermat number \$ 2^{2^t}+1 \$.
-Parameter n must be less or equal to (q-1)^2
+Constraints:
+-   `q` must be a Fermat number \$ 2^{2^t}+1 \$
+-   `n` must be smaller or equal to than \$ (q-1)^2 \$
+-   `n` must be grater or equal to \$ 0 \$
+If above constraints are not met, the result is undefined.
 """
 function modfermat(n::T, q::T) where T <: Integer
     x = n & (q - T(2)) - n >>> trailing_zeros(q - T(1)) + q

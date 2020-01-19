@@ -18,4 +18,6 @@ NumberTheoreticTransforms.fnt
 NumberTheoreticTransforms.fnt!
 NumberTheoreticTransforms.ifnt
 NumberTheoreticTransforms.ifnt!
+NumberTheoreticTransforms.isfermat
+NumberTheoreticTransforms.modfermat
 ```

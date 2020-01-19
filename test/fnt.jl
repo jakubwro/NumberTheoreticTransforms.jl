@@ -1,10 +1,12 @@
 
 @testset "FNT 1D" begin
-    for t in BigInt.(1:10) #TODO: increase range when fnt optimized, should handle t = 20
+    for t in BigInt.(1:13)
+        @show t
         x = [1:2^(t+1);] .|> BigInt
+        @show length(x)
         g = 2 |> BigInt
         q = 2^2^t + 1 |> BigInt
-        @test ifnt(fnt(x, g, q), g, q) == x
+        @time  @test ifnt(fnt(x, g, q), g, q) == x
     end
 end
 
