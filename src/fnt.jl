@@ -21,7 +21,7 @@ export fnt, fnt!, ifnt, ifnt!, modfermat, isfermat
 """
     isfermat(n)
 
-    Checks if a given number is a Fermat number \$ 2^{2^t}+1 \$.
+Checks if a given number is a Fermat number \$ 2^{2^t}+1 \$.
 """
 function isfermat(number::T) where {T<:Integer}
     if !ispow2(number - one(T))
@@ -37,7 +37,7 @@ end
 Equivalent of mod(n, q) but uses faster algorithm.
 Constraints:
 -   `q` must be a Fermat number \$ 2^{2^t}+1 \$
--   `n` must be smaller or equal to than \$ (q-1)^2 \$
+-   `n` must be smaller or equal to \$ (q-1)^2 \$
 -   `n` must be grater or equal to \$ 0 \$
 If above constraints are not met, the result is undefined.
 """
