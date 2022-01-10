@@ -24,7 +24,7 @@ t = 4
 (g, q) = (314, 2^2^t+1) # g for N = 512 found with scripts/find-ntt.jl
 X = fnt(image, g, q)
 H = fnt(blur, g, q)
-Y = X .* H
+Y = mod.(X .* H, q)
 y = ifnt(Y, g, q)
 blurred_image = y .>> 8
 
