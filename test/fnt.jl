@@ -1,9 +1,7 @@
 
 @testset "FNT 1D" begin
     for t in BigInt.(1:13)
-        @show t
         x = [1:2^(t+1);] .|> BigInt
-        @show length(x)
         g = 2 |> BigInt
         q = 2^2^t + 1 |> BigInt
         @time  @test ifnt(fnt(x, g, q), g, q) == x
@@ -122,4 +120,48 @@ end
         x = mod.(rand(0:limit, 1000), (q-1)^2)
         @test mod.(x, q) == modfermat.(x, q)
     end
+end
+
+@testset "multidimensional fnt timings" begin
+
+    for i in 1:2
+        (g, q, n) = (2255, 65537, 65536)
+        
+        rnd = rand(0:16, n);
+        x = copy(rnd);
+        y1, tm1 = @timed fnt(x, g, q);
+        cmplx1 = n * log2(n);
+
+
+        (g, q, n) = (2256, 65537, 256);
+        x = reshape(copy(rnd), (n, n));
+        y2, tm2 = @timed fnt(x, g, q);
+        cmplx2 = 2*n* n*log2(n);
+
+        n = 65536^(1/3);
+        cmplx3 =  3*n * 2*n* n*log2(n);
+        
+        (g, q, n) = (1024, 65537, 16);
+        x = reshape(copy(rnd), (n, n, n, n));
+        y4, tm4 = @timed fnt(x, g, q);
+
+        (g, q, n) = (256, 65537, 4);
+        x = reshape(copy(rnd), (n, n, n, n, n, n, n, n));
+        y8, tm8 = @timed fnt(x, g, q); # 0.03 s
+
+        @show tm1 tm2 tm4 tm8
+    end
+
+    (g, q, n) = (233, 65537, 4096)    
+    rnd = rand(0:16, n, n);
+    x = copy(rnd);
+    y1, tm1 = @timed fnt(x, g, q);
+    cmplx1 = n * log2(n);
+
+    (g, q, n) = (255, 65537, 64)   
+    rnd = rand(0:16, n, n, n, n);
+    x = copy(rnd);
+    y2, tm2 = @timed fnt(x, g, q);
+
+    @show tm1 tm2
 end

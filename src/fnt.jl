@@ -50,7 +50,7 @@ end
 Order input to perform radix-2 structured calculation.
 It sorts array by bit-reversed 0-based sample index.
 """
-function radix2sort!(data::Array{T, 1}) where {T<:Integer}
+function radix2sort!(data::AbstractArray{T, 1}) where {T<:Integer}
     N = length(data)
     @assert ispow2(N)
 
@@ -71,7 +71,16 @@ function radix2sort!(data::Array{T, 1}) where {T<:Integer}
     return data
 end
 
-function fnt!(x::Array{T, 1}, g::T, q::T) where {T<:Integer}
+function radix2sort!(data::AbstractArray{T, N}) where {T<:Integer, N}
+    for d in 1:N
+        other_dims = tuple(filter(!=(d), 1:N)...)
+        for s in eachslice(data, dims = other_dims)
+            radix2sort!(s)
+        end
+    end
+end
+
+function fnt!(x::AbstractArray{T, 1}, g::T, q::T) where {T<:Integer}
     N = length(x)
     @assert ispow2(N)
     @assert isfermat(q)
@@ -105,33 +114,13 @@ function fnt!(x::Array{T, 1}, g::T, q::T) where {T<:Integer}
 end
 
 """
-    fnt!(x, g, q)
-
-In-place version of `fnt`. That means it will store result in the `x` array.
-"""
-function fnt!(x::Array{T,2}, g::T, q::T) where {T<:Integer}
-    N, M = size(x)
-    @assert N == M #TODO: make it work for N != M (need different g for each dim)
-
-    for n in 1:N
-        x[n, :] = fnt!(x[n, :], g, q)
-    end
-
-    for m in 1:M
-        x[:, m] = fnt!(x[:, m], g, q)
-    end
-
-    return x
-end
-
-"""
     fnt(x, g, q)
 
 The Fermat Number Transform returns the same result as `ntt` function using
 more performant algorithm. When `q` has \$ 2^{2^t}+1 \$ form the calculation
 can be performed with O(N*log(N)) operation instead of O(N^2) for `ntt`.
 """
-function fnt(x::Array{T}, g::T, q::T) where {T<:Integer}
+function fnt(x::AbstractArray{T}, g::T, q::T) where {T<:Integer}
     return fnt!(copy(x), g, q)
 end
 
@@ -140,7 +129,7 @@ end
 
 In-place version of `ifnt`. That means it will store result in the `y` array.
 """
-function ifnt!(y::Array{T,1}, g::T, q::T) where {T<:Integer}
+function ifnt!(y::AbstractArray{T,1}, g::T, q::T) where {T<:Integer}
     N = length(y)
     inv_N = invmod(N, q)
     inv_g = invmod(g, q)
@@ -153,17 +142,25 @@ function ifnt!(y::Array{T,1}, g::T, q::T) where {T<:Integer}
     return x   
 end
 
-function ifnt!(y::Array{T,2}, g::T, q::T) where {T<:Integer}
-    N, M = size(y)
-
-    for m in 1:M
-        y[:, m] = ifnt!(y[:, m], g, q)
+function fnt!(y::AbstractArray{T, N}, g::T, q::T) where {T<:Integer, N}
+    for d in 1:N
+        other_dims = tuple(filter(!=(d), 1:N)...)
+        for s in eachslice(y, dims = other_dims)
+            fnt!(s, g, q)
+        end
     end
 
-    for n in 1:N
-        y[n, :] = ifnt!(y[n, :], g, q)
+    return y
+end
+
+function ifnt!(y::AbstractArray{T, N}, g::T, q::T) where {T<:Integer, N}
+    for d in 1:N
+        other_dims = tuple(filter(!=(d), 1:N)...)
+        for s in eachslice(y, dims = other_dims)
+            ifnt!(s, g, q)
+        end
     end
-    
+
     return y
 end
 
