@@ -3,6 +3,9 @@ uuid = "8497c1d1-af72-4391-8d22-bdd566511a1c"
 authors = ["Jakub Wronowski <jakubwro@users.noreply.github.com>"]
 version = "1.0.0"
 
+[deps]
+Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
+
 [compat]
 julia = "1"
 
